@@ -30,3 +30,26 @@ js.addEventListener("input", () => {
 html.dispatchEvent(new Event("input"));
 css.dispatchEvent(new Event("input"));
 js.dispatchEvent(new Event("input"));
+
+[html, css, js].forEach((input) => {
+    input.addEventListener("keydown", (event) => {
+        const tab = 9;
+        const indent = " ".repeat(4);
+
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+
+        if (event.keyCode === tab) {
+            event.preventDefault(); // prevent tabbing to next input
+
+            input.value =
+                input.value.substring(0, start) +
+                indent +
+                input.value.substring(start, end) +
+                input.value.substring(end);
+
+            input.selectionStart = start + indent.length;
+            input.selectionEnd = end + indent.length;
+        }
+    });
+});
